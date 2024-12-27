@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Age</title>
+
+    <style>
+      div {
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="age"></div>
+    <script>
+      const ageDiv = document.getElementById("age");
+      const birthDate = new Date(1997, 2, 26, 2, 30);
+
+      function updateAge() {
+        const now = new Date();
+        const thisYearBirthday = new Date(
+          now.getFullYear(),
+          birthDate.getMonth(),
+          birthDate.getDate(),
+          birthDate.getHours(),
+          birthDate.getMinutes()
+        );
+        const prevYearBirthday = new Date(
+          now.getFullYear() - 1,
+          birthDate.getMonth(),
+          birthDate.getDate(),
+          birthDate.getHours(),
+          birthDate.getMinutes()
+        );
+
+        const lastBirthday =
+          thisYearBirthday <= now ? thisYearBirthday : prevYearBirthday;
+
+        const ageYears = lastBirthday.getFullYear() - birthDate.getFullYear();
+        const timeSinceLastBirthday = now - lastBirthday;
+        const msPerMinute = 1000 * 60;
+        const msPerHour = msPerMinute * 60;
+        const msPerDay = msPerHour * 24;
+        const ageDays = Math.floor(timeSinceLastBirthday / msPerDay);
+        const ageHours = Math.floor(
+          (timeSinceLastBirthday % msPerDay) / msPerHour
+        );
+        const ageMinutes = Math.floor(
+          (timeSinceLastBirthday % msPerHour) / msPerMinute
+        );
+
+        const yearsS = ageYears === 1 ? "" : "s";
+        const daysS = ageDays === 1 ? "" : "s";
+        const hoursS = ageHours === 1 ? "" : "s";
+        const minutesS = ageMinutes === 1 ? "" : "s";
+
+        const ageText = `${ageYears} year${yearsS} ${ageDays} day${daysS} ${ageHours} hour${hoursS} ${ageMinutes} minute${minutesS}`;
+        ageDiv.innerHTML = `${ageText}`;
+      }
+
+      updateAge();
+      setInterval(updateAge, 1000);
+    </script>
+  </body>
+</html>
